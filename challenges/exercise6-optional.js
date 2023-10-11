@@ -7,7 +7,14 @@
  * @param {Number} n
  */
 export const sumDigits = (n) => {
-	if (n === undefined) throw new Error('n is required');
+  if (n === undefined) throw new Error("n is required");
+  const numberStr = n.toString();
+  const digitsArray = numberStr.split("");
+  const sum = digitsArray.reduce((accumulator, digitStr) => {
+    return accumulator + parseInt(digitStr, 10);
+  }, 0);
+
+  return sum;
 };
 
 /**
@@ -18,13 +25,16 @@ export const sumDigits = (n) => {
  * @param {Number} end
  * @param {Number} step
  */
-export const createRange = (start, end, step) => {
-	if (start === undefined) throw new Error('start is required');
-	if (end === undefined) throw new Error('end is required');
-	if (step === undefined)
-		console.log(
-			"FYI: Optional step parameter not provided. Remove this check once you've handled the optional step!"
-		);
+export const createRange = (start, end, step = 1) => {
+  if (start === undefined) throw new Error("start is required");
+  if (end === undefined) throw new Error("end is required");
+
+  let rangeArray = [];
+
+  for (let i = start; i <= end; i += step) {
+    rangeArray.push(i);
+  }
+  return rangeArray;
 };
 
 /**
@@ -57,8 +67,22 @@ export const createRange = (start, end, step) => {
  * @param {Array} users
  */
 export const getScreentimeAlertList = (users, date) => {
-	if (users === undefined) throw new Error('users is required');
-	if (date === undefined) throw new Error('date is required');
+  if (users === undefined) throw new Error("users is required");
+  if (date === undefined) throw new Error("date is required");
+  let alerts = [];
+  for (let i = 0; i < users.length; i++) {
+    const screenTimeData = users[i].screenTime;
+    const usageEntry = screenTimeData.find((entry) => entry.date === date);
+    const usage = usageEntry ? usageEntry.usage : null;
+    if (usage) {
+      const totalUsage = Object.values(usage).reduce(
+        (total, value) => total + value,
+        0
+      );
+      if (totalUsage > 100) alerts.push(users[i].username);
+    }
+  }
+  return alerts;
 };
 
 /**
@@ -72,7 +96,12 @@ export const getScreentimeAlertList = (users, date) => {
  * @param {String} str
  */
 export const hexToRGB = (hexStr) => {
-	if (hexStr === undefined) throw new Error('hexStr is required');
+  if (hexStr === undefined) throw new Error("hexStr is required");
+  hexStr = hexStr.replace(/^#/, "");
+  const r = parseInt(hexStr.substring(0, 2), 16);
+  const g = parseInt(hexStr.substring(2, 4), 16);
+  const b = parseInt(hexStr.substring(4, 6), 16);
+  return `rgb(${r},${g},${b})`;
 };
 
 /**
@@ -86,5 +115,22 @@ export const hexToRGB = (hexStr) => {
  * @param {Array} board
  */
 export const findWinner = (board) => {
-	if (board === undefined) throw new Error('board is required');
+  if (board === undefined) throw new Error("board is required");
+  for (let i = 0; i < 3; i++) {
+    if (board[i][0] === board[i][1] && board[i][0] === board[i][2]) {
+      return board[i][0];
+    }
+  }
+  for (let j = 0; j < 3; j++) {
+    if (board[0][j] === board[1][j] && board[0][j] === board[2][j]) {
+      return board[0][j];
+    }
+  }
+  if (board[0][0] === board[1][1] && board[0][0] === board[2][2]) {
+    return board[0][0];
+  }
+  if (board[0][2] === board[1][1] && board[0][2] === board[2][0]) {
+    return board[0][2];
+  }
+  return null;
 };
