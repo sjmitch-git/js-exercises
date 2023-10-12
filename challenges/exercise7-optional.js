@@ -10,10 +10,7 @@ export function printColours(colours) {
 export function shoppingList(list, newItem) {
   if (!list) throw new Error("list is required");
   if (!newItem) throw new Error("newItem is required");
-  if (!list || list.length === 0) {
-    return newItem;
-  }
-  return [...list, ...newItem];
+  return !list.length ? newItem : [...list, ...newItem];
 }
 
 export function highestNumber(numbers) {
