@@ -62,10 +62,8 @@ export function findSentencesContaining(sentences, str) {
 
 export function getLongestSides(triangles) {
   if (!triangles) throw new Error("triangles is required");
-  let longestSides = [];
-  for (let i = 0; i < triangles.length; i++) {
-    let sorted = triangles[i].sort((a, b) => a - b);
-    longestSides.push(sorted[sorted.length - 1]);
-  }
-  return longestSides;
+  return triangles.map((triangle) => {
+    const sorted = [...triangle].sort((a, b) => a - b);
+    return sorted[sorted.length - 1];
+  });
 }
