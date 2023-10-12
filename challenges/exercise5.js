@@ -40,35 +40,18 @@ export const isValidDNA = (str) => {
  * @param {String} str
  * @returns {String}
  */
+
 export const getComplementaryDNA = (str) => {
   if (str === undefined) throw new Error("str is required");
-  const strArray = str.split("");
-  let complementaryDNA = "";
-  const getComplementary = (dna) => {
-    let complementary;
 
-    switch (dna) {
-      case "T":
-        complementary = "A";
-        break;
-      case "A":
-        complementary = "T";
-        break;
-      case "C":
-        complementary = "G";
-        break;
-      case "G":
-        complementary = "C";
-        break;
-    }
-
-    return complementary;
+  const complementMap = {
+    T: "A",
+    A: "T",
+    C: "G",
+    G: "C",
   };
 
-  for (let i = 0; i < strArray.length; i++) {
-    complementaryDNA = complementaryDNA + getComplementary(strArray[i]);
-  }
-  return complementaryDNA;
+  return [...str].map((dna) => complementMap[dna]).join("");
 };
 
 /**
